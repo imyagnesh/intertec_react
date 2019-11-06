@@ -25,6 +25,7 @@ export default class app extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    throw new Error("Booom....");
     // if(this.props.name !== nextProps.name) {
     //   return true
     // }
@@ -33,14 +34,14 @@ export default class app extends Component {
   }
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
-    retun 'xyz'
+    return true;
   }
-  
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    
+  componentWillUnmount() {
+    document.removeEventListener("copy", this.copyElement);
   }
-  
+
+  componentDidUpdate(prevProps, prevState, snapshot) {}
 
   copyElement = () => {
     console.log("Copied...");
