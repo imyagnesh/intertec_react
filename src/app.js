@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
+import ErrorBoundary from "./components/ErrorBoundary";
 import styles from "./styles";
 
-export default class app extends Component {
+export default class app extends PureComponent {
   state = {
     username: "",
     password: ""
