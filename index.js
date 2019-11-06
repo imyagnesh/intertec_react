@@ -241,3 +241,203 @@ const sum1 = arr.reduce((previous, current, index, arr) => {
 }, 5);
 
 console.log(sum1);
+
+const people = [
+  {
+    name: "yagnesh",
+    gender: "male"
+  },
+  {
+    name: "rohit",
+    gender: "male"
+  },
+  {
+    name: "virat",
+    gender: "male"
+  },
+  {
+    name: "dipika",
+    gender: "male"
+  },
+  {
+    name: "radhika",
+    gender: "female"
+  }
+];
+console.time("map loop");
+const people1 = people.map((item, index) => {
+  if (item.name === "yagnesh") {
+    return { ...item, profession: "trainer" };
+  }
+  if (item.gender == "male") {
+    return { ...item, profession: "cricketer" };
+  }
+  if (item.gender == "female") {
+    return { ...item, profession: "actor" };
+  }
+});
+console.timeEnd("map loop");
+
+console.time("reduce loop");
+const newPeople = people.reduce((previous, current) => {
+  if (current.name === "yagnesh") {
+    return [...previous, { ...current, profession: "trainer" }];
+  }
+  if (current.gender == "male") {
+    return [...previous, { ...current, profession: "cricketer" }];
+  }
+  if (current.gender == "female") {
+    return [...previous, { ...current, profession: "actor" }];
+  }
+}, []);
+console.timeEnd("reduce loop");
+
+const a = null;
+const b = 2;
+
+const res = a || b;
+const res1 = a && b;
+
+console.log(res);
+console.log(res1);
+
+const people = [
+  {
+    name: "yagnesh",
+    gender: "male"
+  },
+  {
+    name: "rohit",
+    gender: "male"
+  },
+  {
+    name: "virat",
+    gender: "male"
+  },
+  {
+    name: "dipika",
+    gender: "female"
+  },
+  {
+    name: "radhika",
+    gender: "female"
+  }
+];
+
+//   {
+//       male: [],
+//       female: []
+//   }
+
+const groupBy = people.reduce((previous, current) => {
+  console.log(previous);
+  previous[current.gender] = previous[current.gender] || [];
+  console.log(current.gender);
+  console.log(previous[current.gender]);
+  previous[current.gender].push(current);
+  return previous;
+}, {});
+
+// console.log(groupBy);
+
+for (const key in arr) {
+  // console.log(key)
+  // console.log(arr[key])
+}
+
+for (const [key, value] of Object.entries(arr)) {
+  console.log(key);
+  console.log(value);
+}
+
+for (const iterator of people) {
+  console.log(iterator);
+}
+
+class Animal {
+  greet = "Hello Animal";
+  Animal(type = "animal") {
+    this.type = type;
+  }
+
+  get type() {
+    return this._type;
+  }
+
+  set type(value) {
+    this._type = value;
+  }
+
+  makeSound() {
+    setTimeout(() => {
+      console.log(this.type);
+    }, 1000);
+    console.log("Animal Sound");
+  }
+}
+
+class Cat extends Animal {
+  constructor(type = "Cat") {
+    super(type);
+  }
+
+  makeSound() {
+    super.makeSound();
+    console.log("Meow...");
+  }
+}
+
+let a = new Animal();
+a.type = "animal";
+console.log(a.makeSound());
+
+// let b = new Cat();
+// console.log(b.makeSound())
+
+function* xyz() {
+  yield "hello";
+  yield "how are you";
+}
+
+const gen = xyz();
+
+for (const iterator of gen) {
+  console.log(iterator);
+}
+// console.log(xyz());
+
+const p1 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("p1 success");
+  }, 3000);
+});
+
+const p2 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject("p2 fail");
+  }, 2000);
+});
+
+const xyz = async () => {
+  try {
+    const data = await Promise.race([p1, p2]);
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+console.log(xyz());
+
+const add = (a, b) => a + b;
+const subtract = (a, b) => a - b;
+const multiplication = (a, b) => a * b;
+const modulo = (a, b) => a % b;
+
+function calculator(operation) {
+  return function(a, b) {
+    return operation(a, b);
+  };
+}
+
+console.log(calculator(modulo)(2, 3));
