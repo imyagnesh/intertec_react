@@ -1,7 +1,7 @@
 import React from "react";
-import { Formik, ErrorMessage, Field, FieldArray } from "formik";
+import { Formik, ErrorMessage, Field, FieldArray, Form } from "formik";
 
-const Form = ({ fields, ...props }) => {
+const CommonForm = ({ fields, ...props }) => {
   return (
     <Formik {...props}>
       {({
@@ -10,14 +10,17 @@ const Form = ({ fields, ...props }) => {
         handleBlur,
         handleSubmit,
         isSubmitting,
-        isValid
+        isValid,
+        status
       }) => (
-        <form onSubmit={handleSubmit}>
+        <Form>
+          {status && status.serverError && <p>{status.serverError}</p>}
           {fields.map(x => {
             if (x.arrayFields) {
               return (
                 <FieldArray
                   name={x.name}
+                  key={x.name}
                   render={arrayHelpers => (
                     <div>
                       {values[x.name].map((arr, index) => (
@@ -58,12 +61,12 @@ const Form = ({ fields, ...props }) => {
             return <Field key={x.name} {...x} />;
           })}
           <button type="submit" disabled={isSubmitting}>
-            Login
+            Submit
           </button>
-        </form>
+        </Form>
       )}
     </Formik>
   );
 };
 
-export default Form;
+export default CommonForm;

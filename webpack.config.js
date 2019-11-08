@@ -42,5 +42,8 @@ module.exports = {
         /* additional options here */
       })
     ]
+  },
+  devServer: {
+    historyApiFallback: true
   }
 };

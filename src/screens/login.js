@@ -5,9 +5,9 @@ import { fields } from "./formData";
 import { LocaleConsumer } from "../context/localeContext";
 import styles from "../styles";
 
-const Login = ({}) => {
+const Login = ({ history }) => {
   const onSubmit = values => {
-    console.log(values);
+    history.push("products");
   };
 
   return (

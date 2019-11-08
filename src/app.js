@@ -1,30 +1,91 @@
-import React, { useState, memo, useEffect, useRef } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import React, {
+  useState,
+  memo,
+  useEffect,
+  useRef,
+  lazy,
+  Suspense
+} from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect
+} from "react-router-dom";
+import PrivateRoute from "./components/PrivateRoute";
+import NoMatch from "./screens/noMatch";
 import { LocaleConsumer } from "./context/localeContext";
 import styles from "./styles";
-import Login from "./screens/login";
+
+const AsyncLogin = React.lazy(() => import("./screens/login"));
+const AsyncProducts = React.lazy(() => import("./screens/products"));
+const AsyncProductDetails = React.lazy(() =>
+  import("./screens/productDetails")
+);
+const AsyncCart = React.lazy(() => import("./screens/cart"));
+
+const routes = [
+  {
+    path: "/",
+    exact: true,
+    component: AsyncLogin
+  },
+  {
+    path: "/products",
+    component: AsyncProducts,
+    routes: [
+      {
+        path: "/products/:id",
+        component: AsyncProductDetails
+      }
+    ]
+  },
+  {
+    path: "/cart",
+    component: AsyncCart
+  }
+];
+
+export function RouteWithSubRoutes(route) {
+  return (
+    <Route
+      path={route.path}
+      render={props => <route.component {...props} routes={route.routes} />}
+    />
+  );
+}
 
 const App = ({ name }) => {
-  const h3 = useRef(null);
-
-  console.log("App");
-
-  const onSubmit = username => {
-    console.log("App", username);
-  };
-
   return (
-    <div>
-      <h1 ref={h3} style={styles.h1}>
-        Hello, yagnesh
-        <LocaleConsumer>
-          {value => {
-            return <p>Hello from App {value.locale}</p>;
-          }}
-        </LocaleConsumer>
-      </h1>
-      <Login onSubmit={onSubmit} />
-    </div>
+    <Router>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Login</Link>
+          </li>
+          <li>
+            <Link to="/products">Products</Link>
+          </li>
+          <li>
+            <Link to="/cart">Contact</Link>
+          </li>
+        </ul>
+      </nav>
+
+      <div>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Switch>
+            {routes.map((route, i) => (
+              <RouteWithSubRoutes key={i} {...route} />
+            ))}
+            <Route>
+              <NoMatch />
+            </Route>
+          </Switch>
+        </Suspense>
+      </div>
+    </Router>
   );
 };
 

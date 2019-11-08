@@ -1,0 +1,34 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "ProductName": "Parle G",
+      "ProductCategory": "best Biscuit",
+      "Price": 12
+    },
+    {
+      "ProductName": "iphone",
+      "ProductCategory": "mobile",
+      "Price": 10000,
+      "id": 2
+    },
+    {
+      "ProductName": "iwatch",
+      "ProductCategory": "watch",
+      "Price": 30000,
+      "id": 3
+    },
+    {
+      "ProductName": "iphone",
+      "ProductCategory": "asdfadsf",
+      "Price": 21312,
+      "id": 4
+    },
+    {
+      "ProductName": "iphone",
+      "ProductCategory": "asdfadsf",
+      "Price": 234242,
+      "id": 5
+    }
+  ]
+}
