@@ -1,9 +1,13 @@
 import React, { useState, memo, useEffect, useRef } from "react";
+import { LocaleConsumer } from "./context/localeContext";
 import styles from "./styles";
 import Login from "./screens/login";
 
 const App = ({ name }) => {
   const h3 = useRef(null);
+
+  console.log("App");
+
   const onSubmit = username => {
     console.log("App", username);
   };
@@ -12,6 +16,11 @@ const App = ({ name }) => {
     <div>
       <h1 ref={h3} style={styles.h1}>
         Hello, yagnesh
+        <LocaleConsumer>
+          {value => {
+            return <p>Hello from App {value.locale}</p>;
+          }}
+        </LocaleConsumer>
       </h1>
       <Login onSubmit={onSubmit} />
     </div>

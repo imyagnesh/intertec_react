@@ -1,12 +1,14 @@
 import React, { useState, memo, useEffect, useRef } from "react";
+import { LocaleConsumer } from "../context/localeContext";
 import styles from "../styles";
 
-const App = ({ onSubmit }) => {
+const Login = ({ onSubmit }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
 
   const xyz = "hello";
+  console.log("Login");
 
   useEffect(() => {
     console.warn("useEffect");
@@ -45,6 +47,18 @@ const App = ({ onSubmit }) => {
 
   return (
     <div>
+      <LocaleConsumer>
+        {value => {
+          return (
+            <div>
+              <p>Hello from Login: {value.locale}</p>
+              <button onClick={() => value.switchLocale()}>
+                Switch Locale
+              </button>
+            </div>
+          );
+        }}
+      </LocaleConsumer>
       <form onSubmit={submit}>
         <input
           type="text"
@@ -68,4 +82,4 @@ const App = ({ onSubmit }) => {
   );
 };
 
-export default memo(App);
+export default memo(Login);
