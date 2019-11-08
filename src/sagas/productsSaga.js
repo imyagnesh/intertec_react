@@ -1,12 +1,20 @@
 import { takeLatest, all, fork, delay, call, put } from "redux-saga/effects";
+import * as types from "../constants/actionTypes";
 
 function* fetchProduct() {
   try {
+    yield delay(3000);
     const res = yield call(fetch, "http://localhost:3004/products");
     const products = yield res.json();
-    yield put({ type: "FETCH_PRODUCTS_SUCCESS", payload: products });
+    yield put({
+      type: `${types.FETCH_PRODUCTS}_${types.SUCCESS}`,
+      payload: products
+    });
   } catch (error) {
-    yield put({ type: "FETCH_PRODUCTS_ERROR", payload: error });
+    yield put({
+      type: `${types.FETCH_PRODUCTS}_${types.ERROR}`,
+      payload: error
+    });
   }
 }
 
@@ -30,7 +38,10 @@ function* createProduct({ payload, meta }) {
     if (id) {
       yield put({ type: "EDIT_PRODUCT_SUCCESS", payload: product });
     } else {
-      yield put({ type: "CREATE_PRODUCT_SUCCESS", payload: product });
+      yield put({
+        type: `${types.CREATE_PRODUCT}_${types.SUCCESS}`,
+        payload: product
+      });
     }
     yield call(resetForm);
   } catch (error) {
@@ -38,7 +49,10 @@ function* createProduct({ payload, meta }) {
     if (id) {
       yield put({ type: "EDIT_PRODUCT_ERROR", payload: error });
     } else {
-      yield put({ type: "CREATE_PRODUCT_ERROR", payload: error });
+      yield put({
+        type: `${types.CREATE_PRODUCT}_${types.ERROR}`,
+        payload: error
+      });
     }
   } finally {
     yield call(setSubmitting, false);
@@ -51,22 +65,25 @@ function* deleteProduct({ payload }) {
     yield call(fetch, `http://localhost:3004/products/${payload}`, {
       method: "DELETE"
     });
-    yield put({ type: "DELETE_PRODUCTS_SUCCESS", payload });
+    yield put({ type: `${types.DELETE_PRODUCT}_${types.SUCCESS}`, payload });
   } catch (error) {
-    yield put({ type: "DELETE_PRODUCTS_ERROR", payload: error });
+    yield put({
+      type: `${types.DELETE_PRODUCT}_${types.ERROR}`,
+      payload: error
+    });
   }
 }
 
 function* fetchProductsRequest() {
-  yield takeLatest("FETCH_PRODUCTS_REQUEST", fetchProduct);
+  yield takeLatest(`${types.FETCH_PRODUCTS}_${types.REQUEST}`, fetchProduct);
 }
 
 function* createProductRequest() {
-  yield takeLatest("CREATE_PRODUCT_REQUEST", createProduct);
+  yield takeLatest(`${types.CREATE_PRODUCT}_${types.REQUEST}`, createProduct);
 }
 
 function* deleteProductRequest() {
-  yield takeLatest("DELETE_PRODUCT_REQUEST", deleteProduct);
+  yield takeLatest(`${types.DELETE_PRODUCT}_${types.REQUEST}`, deleteProduct);
 }
 
 export default function* rootProductsSaga() {

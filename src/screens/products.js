@@ -4,6 +4,8 @@ import { RouteWithSubRoutes } from "../app";
 import { Switch } from "react-router-dom";
 import Form from "../components/form";
 import { productFields } from "./formData";
+import { action } from "../utils";
+import * as types from "../constants/actionTypes";
 
 const Products = ({
   routes,
@@ -13,13 +15,18 @@ const Products = ({
   createProductRequest,
   deleteProductRequest,
   addToCart,
-  updateToCart
+  updateToCart,
+  loading
 }) => {
   const [initialValues, setInitialValues] = useState(null);
 
   useEffect(() => {
     fetchProductsRequest();
   }, []);
+
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <div>
@@ -111,20 +118,21 @@ const Products = ({
 
 const mapStateToProps = state => ({
   products: state.products,
-  cart: state.cart
+  cart: state.cart,
+  loading:
+    state.loading[types.FETCH_PRODUCTS] || state.loading[types.CREATE_PRODUCT]
 });
 
 const mapDispatchToProps = dispatch => ({
-  changeLocale: payload => dispatch({ type: "CHANGE_LOCALE", payload }),
-  fetchProductsRequest: () => dispatch({ type: "FETCH_PRODUCTS_REQUEST" }),
+  changeLocale: payload => dispatch(action("CHANGE_LOCALE")),
+  fetchProductsRequest: () =>
+    dispatch(action(`${types.FETCH_PRODUCTS}_${types.REQUEST}`)),
   createProductRequest: (values, actions) =>
-    dispatch({
-      type: "CREATE_PRODUCT_REQUEST",
-      payload: values,
-      meta: actions
-    }),
+    dispatch(
+      action(`${types.CREATE_PRODUCT}_${types.REQUEST}`, values, actions)
+    ),
   deleteProductRequest: payload =>
-    dispatch({ type: "DELETE_PRODUCT_REQUEST", payload }),
+    dispatch(action(`${types.DELETE_PRODUCT}_${types.REQUEST}`, payload)),
   addToCart: payload => dispatch({ type: "ADD_TO_CART", payload }),
   updateToCart: payload => dispatch({ type: "UPDATE_TO_CART", payload })
 });

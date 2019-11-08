@@ -29,6 +29,18 @@
       "ProductCategory": "asdfadsf",
       "Price": 234242,
       "id": 5
+    },
+    {
+      "ProductName": "iphone",
+      "ProductCategory": "mobile",
+      "Price": 231412234,
+      "id": 6
+    },
+    {
+      "ProductName": "iphone",
+      "ProductCategory": "asdfadsf",
+      "Price": 7657657,
+      "id": 7
     }
   ]
 }
