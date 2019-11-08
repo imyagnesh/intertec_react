@@ -1,4 +1,5 @@
 import React, { useState, memo, useEffect, useRef } from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { LocaleConsumer } from "./context/localeContext";
 import styles from "./styles";
 import Login from "./screens/login";
